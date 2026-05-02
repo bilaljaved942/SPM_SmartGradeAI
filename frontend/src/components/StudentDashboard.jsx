@@ -290,26 +290,57 @@ export default function StudentDashboard() {
                                     </div>
                                 </form>
                             ) : (
-                                <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white border border-gray-100 shadow-xl rounded-[2rem] overflow-hidden w-full">
-                                    <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-6 sm:p-8 text-white text-center">
-                                        <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                                            <CheckCircle size={32} className="text-white" />
+                                <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white/80 backdrop-blur-xl border border-white shadow-2xl rounded-[2rem] overflow-hidden w-full max-w-2xl mx-auto">
+                                    <div className="p-8 sm:p-12 flex flex-col items-center relative">
+                                        {/* Decorative background elements */}
+                                        <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#f0f9ff] to-transparent" />
+                                        <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-400/20 rounded-full blur-3xl" />
+                                        <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400/20 rounded-full blur-3xl" />
+                                        
+                                        <div className="relative z-10 flex flex-col items-center w-full">
+                                            <div className="mb-2 bg-gradient-to-r from-[#b14bf4] to-[#f14d8e] text-transparent bg-clip-text font-black tracking-widest uppercase text-sm">
+                                                Evaluation Complete
+                                            </div>
+                                            
+                                            {/* Circular Progress Ring */}
+                                            <div className="relative w-48 h-48 my-8 flex items-center justify-center">
+                                                <svg className="w-full h-full transform -rotate-90 drop-shadow-md" viewBox="0 0 100 100">
+                                                    <circle className="text-gray-100 stroke-current" strokeWidth="8" cx="50" cy="50" r="40" fill="transparent"></circle>
+                                                    <motion.circle 
+                                                        initial={{ strokeDasharray: "0 251.2" }}
+                                                        animate={{ strokeDasharray: `${(result.score / selectedExam.questions[0].max_marks) * 251.2} 251.2` }}
+                                                        transition={{ duration: 1.5, ease: "easeOut" }}
+                                                        className="text-[#b14bf4] stroke-current" 
+                                                        strokeWidth="8" 
+                                                        strokeLinecap="round" 
+                                                        cx="50" cy="50" r="40" fill="transparent"
+                                                    ></motion.circle>
+                                                </svg>
+                                                <div className="absolute flex flex-col items-center justify-center">
+                                                    <span className="text-5xl font-black text-gray-800">{result.score}</span>
+                                                    <span className="text-sm font-bold text-gray-400 mt-1">out of {selectedExam.questions[0].max_marks}</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="w-full mt-4">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-[#b14bf4]">
+                                                        <FileText size={16} />
+                                                    </div>
+                                                    <span className="text-sm font-bold text-gray-600 uppercase tracking-wide">Detailed AI Feedback</span>
+                                                </div>
+                                                <div className="bg-[#fafbfc] border border-gray-100 rounded-2xl p-6 shadow-inner relative overflow-hidden">
+                                                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#b14bf4] to-[#f14d8e]"></div>
+                                                    <p className="text-gray-700 text-[15px] leading-relaxed whitespace-pre-wrap pl-2">
+                                                        {result.feedback}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            
+                                            <button onClick={() => setSelectedExam(null)} className="mt-8 w-full py-4 rounded-xl font-bold text-gray-600 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition shadow-sm flex items-center justify-center gap-2">
+                                                <ArrowRight size={18} /> Return to Exams
+                                            </button>
                                         </div>
-                                        <h3 className="text-2xl font-bold mb-1">Evaluation Complete</h3>
-                                        <p className="text-green-50 font-medium opacity-90">AI has graded your uploaded solution</p>
-                                    </div>
-                                    <div className="p-6 sm:p-8">
-                                        <div className="flex justify-center items-end gap-2 mb-8 border-b border-gray-100 pb-8">
-                                            <span className="text-5xl sm:text-[64px] font-black text-gray-900 leading-none">{result.score}</span>
-                                            <span className="text-base sm:text-lg text-gray-400 font-bold mb-1 sm:mb-2">/ {selectedExam.questions[0].max_marks}</span>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <span className="text-sm font-bold text-gray-400 uppercase tracking-wide">AI Feedback</span>
-                                            <p className="text-gray-700 font-medium leading-relaxed bg-gray-50 p-4 sm:p-6 rounded-2xl border border-gray-100 whitespace-pre-wrap text-sm sm:text-base">
-                                                {result.feedback}
-                                            </p>
-                                        </div>
-                                        <button onClick={() => setSelectedExam(null)} className="mt-8 w-full py-4 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition">Return to Exams</button>
                                     </div>
                                 </motion.div>
                             )}
