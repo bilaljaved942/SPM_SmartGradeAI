@@ -4,7 +4,7 @@ import json
 
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY", ""))
 
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-2.5-flash"
 
 def generate_model_solution(question_text: str, rubric_text: str) -> str:
     """Generates a reference model solution based on the question and rubric."""
